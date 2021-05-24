@@ -1,0 +1,8 @@
+{
+  "extends": "@parcel/config-default",
+  "bundler": "@parcel/bundler-default",
+  "optimizers": {
+    "*.js": ["@parcel/optimizer-terser"]
+  },
+  "reporters":  ["parcel-reporter-static-files-copy"]
+}
