@@ -19,7 +19,6 @@ const setupMessageHandling = (socket, callbacks) => {
 }
 
 const socketOpenedHandler = (event) => {
-  console.log(event);
   console.log('wow such opened socket');
   event.target.send('{"op":"unconfirmed_sub"}');
 }

@@ -2,7 +2,7 @@
   "name": "my-project",
   "scripts": {
     "start": "parcel serve src/index.html",
-    "build": "parcel build src/index.html",
+    "build": "parcel build src/index.html --public-url .",
     "push-to-pages": "push-dir --dir=dist --branch=pages --force",
     "deploy": "rimraf dist && npm run build && npm run push-to-pages"
   },
