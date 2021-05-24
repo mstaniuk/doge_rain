@@ -3,11 +3,13 @@
   "scripts": {
     "start": "parcel serve src/index.html",
     "build": "parcel build src/index.html",
-    "push-to-pages": "push-dir --dir=dist --branch=pages --force"
+    "push-to-pages": "push-dir --dir=dist --branch=pages --force",
+    "deploy": "rimraf dist && npm run build && npm run push-to-pages"
   },
   "dependencies": {
     "cannon-es": "0.17.1",
     "push-dir": "0.4.1",
+    "rimraf": "3.0.2",
     "three": "0.128.0"
   },
   "devDependencies": {
