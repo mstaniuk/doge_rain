@@ -2,10 +2,12 @@
   "name": "my-project",
   "scripts": {
     "start": "parcel serve src/index.html",
-    "build": "parcel build src/index.html"
+    "build": "parcel build src/index.html",
+    "push-to-pages": "push-dir --dir=dist --branch=pages --force"
   },
   "dependencies": {
     "cannon-es": "0.17.1",
+    "push-dir": "0.4.1",
     "three": "0.128.0"
   },
   "devDependencies": {
