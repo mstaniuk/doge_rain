@@ -1,6 +1,10 @@
 import * as THREE from 'three';
 import * as Cannon from 'cannon-es';
 
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { MotionBlurPass } from './scripts/vendor/MotionBlurPass/MotionBlurPass.js';
+
 import {init as initApi} from './scripts/api.mjs';
 import {CoinFactory} from './scripts/classes/CoinFactory.mjs';
 import {init as initWorld} from './scripts/world';
@@ -26,8 +30,8 @@ import {getLight} from './scripts/light';
   const world = initWorld();
   const scene = initScene();
   const renderer = initRenderer(canvas, sizes);
-  const {dogeMeta} = await initAssets();
 
+  const {dogeMeta} = await initAssets();
 
   const floor = getFloor();
   world.addBody(floor.body);
@@ -59,6 +63,29 @@ import {getLight} from './scripts/light';
   const camera = getCamera(sizes);
   scene.add(camera);
 
+  const params = {
+    enabled: true,
+    cameraBlur: false,
+    animate: true,
+    samples: 7,
+    expandGeometry: 0,
+    interpolateGeometry: 1,
+    smearIntensity: 1,
+    speed: 20,
+    renderTargetScale: 1,
+    jitter: 1,
+    jitterStrategy: 2,
+  };
+
+  var renderScene = new RenderPass( scene, camera );
+  var motionBlurPass = new MotionBlurPass( scene, camera );
+
+  var composer = new EffectComposer( renderer );
+  composer.setSize( sizes.width, sizes.height );
+  composer.addPass( renderScene );
+  composer.addPass( motionBlurPass );
+  motionBlurPass.renderToScreen = true;
+
   loader.style.display = 'none';
 
   window.addEventListener('resize', () => {
@@ -72,7 +99,10 @@ import {getLight} from './scripts/light';
 
     // Update renderer
     renderer.setSize(sizes.width, sizes.height)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    composer.setSize( sizes.width, sizes.height );
+    composer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   })
 
   const clock = new THREE.Clock();
@@ -97,8 +127,8 @@ import {getLight} from './scripts/light';
       }
     }
 
-    renderer.render(scene, camera);
-
+    // renderer.render(scene, camera);
+    composer.render();
     window.requestAnimationFrame(tick)
   }
 
