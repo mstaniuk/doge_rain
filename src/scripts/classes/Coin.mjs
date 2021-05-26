@@ -17,14 +17,24 @@ export class Coin {
     const shape = new Cannon.Cylinder(scale, scale, scale / 5, 16);
 
     this.body = new Cannon.Body({
-      mass: 1,
+      mass: scale,
       position: position,
       shape: shape,
     });
+
     this.body.sleepSpeedLimit = .5;
     const randomVector1 = new Cannon.Vec3((Math.random() - 0.5) * 40, (Math.random() - 0.5) * 40, (Math.random() - 0.5) * 40);
     const randomVector2 = new Cannon.Vec3((Math.random() - 0.5) * 2, (Math.random() - 0.5) * 2, (Math.random() - 0.5) * 2);
     this.body.applyLocalForce(randomVector1, randomVector2);
+    this.body.addEventListener('collide', this.onColide);
+  }
+
+  onColide(collision) {
+    const strength = collision.contact.getImpactVelocityAlongNormal();
+    if (window.navigator.vibrate && strength > 3) {
+      const length = strength - 3 * 100;
+      window.navigator.vibrate(length);
+    }
   }
 
   update() {

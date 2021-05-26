@@ -40,9 +40,9 @@ import {getLight} from './scripts/light';
 
   const addCoin = (scale = 0.5) => {
     const position = {
-      x: (Math.random() - 0.5) * 3,
+      x: (Math.random() - 0.5) * 2,
       y: Math.random() * 5 + 15,
-      z: (Math.random() - 0.5) * 3,
+      z: (Math.random() - 0.5) * 2,
     };
     const coin = coinFactory.getCoin(position, scale);
 
